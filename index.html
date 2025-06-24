@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gabriel the Automation Architect</title>
+    <style>
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        /* Container for Sidebar and Main Content */
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 280px;
+            background: white;
+            padding: 2rem 0;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        /* Profile Section in Sidebar */
+        .profile {
+            text-align: center;
+            padding: 0 2rem 2rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .profile-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* Ensures image is clipped to circle */
+        }
+
+        .profile-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures image covers the area without distortion */
+            border-radius: 50%; /* Apply border-radius to the image itself */
+        }
+
+        .profile h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .profile p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Navigation Menu */
+        .nav-menu {
+            padding: 2rem 0;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 0.75rem 2rem;
+            color: #666;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: #667eea;
+        }
+
+        .nav-item i {
+            margin-right: 0.75rem;
+            width: 18px;
+            display: inline-block;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+        }
+
+        /* Section Styling */
+        .section {
+            min-height: 100vh;
+            padding: 4rem 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Header Styling for Sections */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #333;
+            /* Animation for page title */
+            animation: fadeInDown 1s ease-out forwards;
+            opacity: 0; /* Start invisible */
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Intro Text */
+        .intro-text {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            max-width: 900px;
+            animation: fadeIn 1.5s ease-out forwards;
+            opacity: 0; /* Start invisible */
+            animation-delay: 0.5s; /* Delay after title animation */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Skill Card */
+        .skill-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .skill-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        .skill-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .skill-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .skill-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .skill-list li {
+            color: #666;
+            padding: 0.25rem 0;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .skill-list li::before {
+            content: '•';
+            color: #667eea;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Project Card */
+        .project-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .project-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-subtitle {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .project-tag {
+            background: #f1f3f4;
+            color: #5f6368;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* About Section Specifics */
+        .about-intro {
+            font-size: 1.1rem;
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        /* Contact Section Grid */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .contact-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .submit-btn {
+            background: #667eea;
+            color: white;
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        /* Education Section */
+        .education-section {
+            margin-top: 3rem;
+        }
+
+        /* Blog Section Specific Styling */
+        #blog-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        #blog-container > div {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        #blog-container > div:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        #blog-container h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0.75rem;
+        }
+
+        #blog-container h3 a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        #blog-container h3 a:hover {
+            color: #667eea;
+        }
+
+        #blog-container p {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .section {
+                padding: 2rem 1rem;
+                min-height: auto;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .skills-grid, .projects-grid, #blog-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="profile">
+                <!-- Profile Image: Your provided image is embedded here as base64 -->
+                <div class="profile-img">
+                    <img src="IMG_7207.jpeg" alt="Gabriel's Profile Picture">
+                </div>
+                <h1>Gabriel</h1>
+                <p>Automation Architect</p>
+            </div>
+            
+            <nav class="nav-menu">
+                <a class="nav-item active" data-section="home">
+                    <i>🏠</i> Home
+                </a>
+                <a class="nav-item" data-section="about">
+                    <i>👤</i> About
+                </a>
+                <a class="nav-item" data-section="projects">
+                    <i>💼</i> Projects
+                </a>
+                <a class="nav-item" data-section="stack">
+                    <i>⚡</i> Stack
+                </a>
+                <a class="nav-item" data-section="blog">
+                    <i>✍️</i> Blog
+                </a>
+                <a class="nav-item" data-section="contact">
+                    <i>✉️</i> Contact
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <!-- Home Section Start -->
+            <section id="home" class="section">
+                <div class="header">
+                    <h1 class="page-title">Gabriel the Automation Architect</h1>
+                </div>
+
+                <p class="intro-text">
+                    Transforming business processes with powerful automation workflows using n8n
+                </p>
+
+                <div style="display: flex; gap: 1.5rem; margin-bottom: 3rem;">
+                    <a href="#projects" class="contact-btn" style="background: #667eea; color: white; padding: 1rem 2rem; border-radius: 8px; font-weight: 600; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);">View My Projects</a>
+                    <a href="#contact" class="contact-btn" style="background: #f1f3f4; color: #333; padding: 1rem 2rem; border-radius: 8px; font-weight: 600; text-decoration: none; border: 1px solid #ddd; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">Contact Me</a>
+                </div>
+            </section>
+            <!-- Home Section End -->
+
+            <!-- About Section Start -->
+            <section id="about" class="section">
+                <div class="header">
+                    <h1 class="page-title">About Me</h1>
+                </div>
+
+                <p class="about-intro">
+                    As an <span class="highlight">Automation Architect</span> and <span class="highlight">AI Engineer</span>, I specialize in crafting intelligent, efficient systems that drive significant business growth. I leverage cutting-edge automation platforms and artificial intelligence to streamline complex operations, reduce manual overhead, and unlock new opportunities for innovation. My passion lies in designing robust workflow solutions that not only solve immediate challenges but also scale to meet future demands, helping businesses achieve unprecedented levels of productivity and lead generation. Let's build the future of intelligent automation, together.
+                </p>
+
+                <div class="education-section">
+                    <h2 class="section-title">Education & Certifications</h2>
+                    <div class="skills-grid">
+                        <div class="skill-card">
+                            <div class="skill-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">🎓</div>
+                            <h3>Bachelor of Science in Computer Science</h3>
+                            <p style="color: #667eea; font-weight: 600; margin-bottom: 0.5rem;">University of Benin, Nigeria | 2017-2021</p>
+                            <p style="margin-bottom: 1rem;">Comprehensive foundation in computer science principles and engineering</p>
+                            <ul class="skill-list">
+                                <li>Control System Theory</li>
+                                <li>Computer Architecture and Organization</li>
+                                <li>Engineering Mathematics</li>
+                                <li>Data Structures and Algorithms</li>
+                                <li>Member of the Chess Club</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="skill-card">
+                            <div class="skill-icon" style="background: linear-gradient(135deg, #4ECDC4, #44A08D);">📊</div>
+                            <h3>Google Data Analytics Professional Certificate</h3>
+                            <p style="color: #4ECDC4; font-weight: 600; margin-bottom: 0.5rem;">Coursera | 2024</p>
+                            <p style="margin-bottom: 1rem;">Advanced data analytics skills with real-world project experience</p>
+                            <ul class="skill-list">
+                                <li>Data ecosystems and analytical thinking</li>
+                                <li>Python for data cleaning and preprocessing</li>
+                                <li>Data visualization and analysis</li>
+                                <li>Exploratory data analysis and statistics</li>
+                                <li>Bellabeat wellness tech project</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="skill-card">
+                            <div class="skill-icon" style="background: linear-gradient(135deg, #A8EDEA, #FED6E3);">🌍</div>
+                            <h3>Languages</h3>
+                            <p style="margin-bottom: 1rem;">Multilingual communication capabilities</p>
+                            <ul class="skill-list">
+                                <li><strong>English:</strong> Fluent (Native)</li>
+                                <li><strong>French:</strong> Intermediate</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- About Section End -->
+
+            <!-- Projects Section Start -->
+            <section id="projects" class="section">
+                <div class="header">
+                    <h1 class="page-title">Featured Projects</h1>
+                </div>
+
+                <p class="intro-text">
+                    Real-world automation solutions I've designed and implemented.
+                    
+                </p>
+
+                <div class="projects-grid">
+                    <!-- Project Card 1 Start -->
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3 class="project-title">E-commerce Order Processing</h3>
+                            <p class="project-subtitle">Automated order fulfillment system</p>
+                        </div>
+                        <!-- To add images to your project cards, insert an <img> tag right after the `project-header` inside each `project-card`. -->
+                        <!-- Example: <img src="your-image-url.jpg" alt="Project Image" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;"> -->
+                        <p class="project-description">
+                            Created an end-to-end order processing workflow that reduced manual tasks by 85% and improved fulfillment speed by 60%.
+                        </p>
+                        <div class="project-tags">
+                            <span class="project-tag">n8n</span>
+                            <span class="project-tag">Shopify</span>
+                            <span class="project-tag">Shipping APIs</span>
+                            <span class="project-tag">Email Automation</span>
+                        </div>
+                    </div>
+                    <!-- Project Card 1 End -->
+                    
+                    <!-- Project Card 2 Start -->
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3 class="project-title">CRM Data Synchronization</h3>
+                            <p class="project-subtitle">Bi-directional data sync system</p>
+                        </div>
+                        <!-- To add images to your project cards, insert an <img> tag right after the `project-header` inside each `project-card`. -->
+                        <!-- Example: <img src="your-image-url.jpg" alt="Project Image" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;"> -->
+                        <p class="project-description">
+                            Developed a robust synchronization system between Salesforce and HubSpot, ensuring data consistency across platforms with conflict resolution.
+                        </p>
+                        <div class="project-tags">
+                            <span class="project-tag">make.com</span>
+                            <span class="project-tag">Salesforce</span>
+                            <span class="project-tag">HubSpot</span>
+                            <span class="project-tag">Data Mapping</span>
+                        </div>
+                    </div>
+                    <!-- Project Card 2 End -->
+                    
+                    <!-- Project Card 3 Start -->
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3 class="project-title">HR Onboarding Automation</h3>
+                            <p class="project-subtitle">Employee onboarding workflow</p>
+                        </div>
+                        <!-- To add images to your project cards, insert an <img> tag right after the `project-header` inside each `project-card`. -->
+                        <!-- Example: <img src="your-image-url.jpg" alt="Project Image" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;"> -->
+                        <p class="project-description">
+                            Streamlined the employee onboarding process by automating document generation, account creation, and training assignments across multiple systems.
+                        </p>
+                        <div class="project-tags">
+                            <span class="project-tag">n8n</span>
+                            <span class="project-tag">Google Workspace</span>
+                            <span class="project-tag">DocuSign</span>
+                        </div>
+                    </div>
+                    <!-- Project Card 3 End -->
+
+                    <!-- Project Card 4 (Bellabeat Analysis) Start -->
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3 class="project-title">Bellabeat Analysis</h3>
+                            <p class="project-subtitle">Google Data Analytics Capstone</p>
+                        </div>
+                        <!-- To add images to your project cards, insert an <img> tag right after the `project-header` inside each `project-card`. -->
+                        <!-- Example: <img src="your-image-url.jpg" alt="Project Image" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;"> -->
+                        <p class="project-description">
+                            Comprehensive analysis of wellness tech data for women's health products. This project involved exploring FitBit app usage patterns, analyzing user behavior data, and providing actionable business insights through applied statistical analysis methods.
+                        </p>
+                        <div class="project-tags">
+                            <span class="project-tag">Data Analysis</span>
+                            <span class="project-tag">FitBit</span>
+                            <span class="project-tag">User Behavior</span>
+                            <span class="project-tag">Business Insights</span>
+                            <span class="project-tag">Statistics</span>
+                        </div>
+                    </div>
+                    <!-- Project Card 4 End -->
+                </div>
+            </section>
+            <!-- Projects Section End -->
+
+            <!-- Stack Section Start -->
+            <section id="stack" class="section">
+                <div class="header">
+                    <h1 class="page-title">Skills & Expertise</h1>
+                </div>
+
+                <p class="intro-text">
+                    My technical toolkit for creating powerful automation solutions.
+                    You can edit or add new skills by modifying or copying existing `skill-card` blocks within the `skills-grid`.
+                </p>
+
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <div class="skill-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">🔄</div>
+                        <h3>Workflow Design</h3>
+                        <p>Creating efficient automation flows</p>
+                        <ul class="skill-list">
+                            <li>Complex workflow architecture</li>
+                            <li>Process optimization</li>
+                            <li>Error handling & recovery</li>
+                            <li>Scalable design patterns</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="skill-card">
+                        <div class="skill-icon" style="background: linear-gradient(135deg, #4ECDC4, #44A08D);">⚡</div>
+                        <h3>Automation Platforms</h3>
+                        <p>Expert in leading automation tools</p>
+                        <ul class="skill-list">
+                            <li>n8n workflow automation</li>
+                            <li>Make.com integrations</li>
+                            <li>Zapier automations</li>
+                            <li>Custom platform development</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="skill-card">
+                        <div class="skill-icon" style="background: linear-gradient(135deg, #FF6B6B, #EE5A24);">🔗</div>
+                        <h3>Integration Expertise</h3>
+                        <p>Connecting diverse systems</p>
+                        <ul class="skill-list">
+                            <li>API integration</li>
+                            <li>Database connectors</li>
+                            <li>CRM & ERP systems</li>
+                            <li>Custom webhook development</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="skill-card">
+                        <div class="skill-icon" style="background: linear-gradient(135deg, #A8EDEA, #FED6E3);">💻</div>
+                        <h3>Development</h3>
+                        <p>Custom coding for automation</p>
+                        <ul class="skill-list">
+                            <li>JavaScript/Node.js</li>
+                            <li>Python</li>
+                            <li>REST API development</li>
+                            <li>JSON/XML data transformation</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="skill-card">
+                        <div class="skill-icon" style="background: linear-gradient(135deg, #f093fb, #f5576c);">📊</div>
+                        <h3>Process Analysis</h3>
+                        <p>Identifying automation opportunities</p>
+                        <ul class="skill-list">
+                            <li>Business process mapping</li>
+                            <li>Efficiency analysis</li>
+                            <li>ROI calculation</li>
+                            <li>Automation strategy</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="skill-card">
+                        <div class="skill-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">🗂️</div>
+                        <h3>Version Control</h3>
+                        <p>Managing automation code</p>
+                        <ul class="skill-list">
+                            <li>Git workflow management</li>
+                            <li>CI/CD for automation</li>
+                            <li>Documentation</li>
+                            <li>Collaborative development</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <!-- Stack Section End -->
+
+            <!-- Blog Section Start -->
+            <section id="blog" class="section">
+                <div class="header">
+                    <h1 class="page-title">Latest Blog Posts</h1>
+                </div>
+                <p class="intro-text">
+                    
+                </p>
+                <div id="blog-container">
+                    <!-- Blog posts will be loaded here by JavaScript -->
+                    <p>Loading blog posts...</p>
+                </div>
+            </section>
+            <!-- Blog Section End -->
+
+            <!-- Contact Section Start -->
+            <section id="contact" class="section">
+                <div class="header">
+                    <h1 class="page-title">Let's Connect!</h1>
+                </div>
+
+                <p class="intro-text">
+                    Whether it's building an automation workflow, optimizing business processes, or discussing the latest in workflow automation, I'm always excited to collaborate. Reach out to me and let's automate something amazing — together!
+                </p>
+
+                <div class="contact-grid">
+                    <a href="mailto:ebhgab@gmail.com" class="contact-item">
+                        <div class="contact-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">✉️</div>
+                        <span>ebhgab@gmail.com</span>
+                    </a>
+                    
+                    <a href="https://ng.linkedin.com/in/gabrielebhota" target="_blank" class="contact-item">
+                        <div class="contact-icon" style="background: linear-gradient(135deg, #a8edea, #fed6e3);">💼</div>
+                        <span>LinkedIn</span>
+                    </a>
+                </div>
+
+                <h2 class="section-title">Get in touch</h2>
+                <form class="contact-form" action="mailto:ebhgab@gmail.com" method="post" enctype="text/plain">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" placeholder="Tell me about your automation needs..." required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </section>
+            <!-- Contact Section End -->
+        </main>
+    </div>
+
+    <script>
+        // Define a custom message box function since alert() is not allowed
+        function showMessageBox(message) {
+            const messageBox = document.createElement('div');
+            messageBox.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: #333;
+                color: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                z-index: 10000;
+                font-family: inherit;
+                text-align: center;
+            `;
+            messageBox.textContent = message;
+            document.body.appendChild(messageBox);
+
+            setTimeout(() => {
+                document.body.removeChild(messageBox);
+            }, 3000); // Message disappears after 3 seconds
+        }
+
+        // Navigation functionality with smooth scrolling
+        const navItems = document.querySelectorAll('.nav-item[data-section]');
+        const sections = document.querySelectorAll('.section');
+
+        navItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                const targetSection = item.getAttribute('data-section');
+                const section = document.getElementById(targetSection);
+                
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Update active nav item based on scroll position
+        function updateActiveNav() {
+            const scrollPos = window.scrollY + 100; // Add offset for active state
+            
+            sections.forEach((section) => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute('id');
+                
+                if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    const activeNav = document.querySelector(`[data-section="${sectionId}"]`);
+                    if (activeNav) {
+                        activeNav.classList.add('active');
+                    }
+                }
+            });
+        }
+
+        // Listen for scroll events
+        window.addEventListener('scroll', updateActiveNav);
+
+        // Smooth animations on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.skill-card, .project-card, .contact-item, #blog-container > div');
+            
+            const animateOnScroll = () => {
+                cards.forEach((card, index) => {
+                    const rect = card.getBoundingClientRect();
+                    const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+                    
+                    if (isVisible && !card.classList.contains('animated')) {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            card.style.transition = 'all 0.6s ease';
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                            card.classList.add('animated');
+                        }, index * 100);
+                    }
+                });
+            };
+
+            window.addEventListener('scroll', animateOnScroll);
+            animateOnScroll(); // Initial check
+
+            // Blog Post Fetching
+            fetch("https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@ebhgab")
+                .then(res => res.json())
+                .then(data => {
+                    const container = document.getElementById("blog-container");
+                    container.innerHTML = ''; // Clear "Loading blog posts..."
+                    if (data.items && data.items.length > 0) {
+                        data.items.slice(0, 3).forEach(post => { // Displaying up to 3 posts
+                            const div = document.createElement("div");
+                            div.innerHTML = `
+                                <h3><a href="${post.link}" target="_blank">${post.title}</a></h3>
+                                <p>${post.description.replace(/<[^>]*>?/gm, '').substring(0, 150)}...</p>
+                            `;
+                            container.appendChild(div);
+                        });
+                    } else {
+                        container.innerHTML = '<p>No blog posts found at the moment.</p>';
+                    }
+                })
+                .catch(error => {
+                    const container = document.getElementById("blog-container");
+                    container.innerHTML = '<p style="color: red;">Failed to load blog posts. Please try again later.</p>';
+                    console.error("Error fetching blog posts:", error);
+                });
+        });
+    </script>
+</body>
+</html>
