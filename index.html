@@ -792,7 +792,7 @@
                     <h1 class="page-title">Latest Blog Posts</h1>
                 </div>
                 <p class="intro-text">
-                    
+                    For even more blog content and all my thoughts, be sure to follow me on <a href="https://medium.com/@ebhgab" target="_blank" style="color: #667eea; text-decoration: underline; font-weight: bold;">Medium</a>. Happy reading!
                 </p>
                 <div id="blog-container">
                     <!-- Blog posts will be loaded here by JavaScript -->
@@ -935,13 +935,18 @@
             animateOnScroll(); // Initial check
 
             // Blog Post Fetching
+            // This section automatically fetches your latest posts from Medium.
+            // If you change your Medium username or prefer a different RSS feed,
+            // update the `rss_url` parameter in the fetch URL below.
             fetch("https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@ebhgab")
                 .then(res => res.json())
                 .then(data => {
                     const container = document.getElementById("blog-container");
                     container.innerHTML = ''; // Clear "Loading blog posts..."
                     if (data.items && data.items.length > 0) {
-                        data.items.slice(0, 3).forEach(post => { // Displaying up to 3 posts
+                        // The .slice(0, 8) here means it will display the first 8 (most recent) articles.
+                        // Change '8' to any number you prefer to show more or fewer articles.
+                        data.items.slice(0, 8).forEach(post => {
                             const div = document.createElement("div");
                             div.innerHTML = `
                                 <h3><a href="${post.link}" target="_blank">${post.title}</a></h3>
