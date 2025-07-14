@@ -75,28 +75,36 @@
         // Data for the project pop-ups
         const projectsData = {
             1: {
-                title: 'E-commerce Order Processing',
-                image1: 'https://placehold.co/700x400/667eea/ffffff?text=E-commerce+Workflow',
-                image2: 'https://placehold.co/700x400/4ECDC4/ffffff?text=System+Integration',
-                image3: 'https://placehold.co/700x400/A8EDEA/ffffff?text=Automated+Email',
-                text1: 'This project involved creating a comprehensive, end-to-end automation solution for an e-commerce client using n8n. The primary goal was to eliminate manual order processing, reduce human error, and accelerate the fulfillment lifecycle. The workflow starts when a new order is placed on their Shopify store, triggering a webhook that initiates the n8n automation.',
-                text2: 'The automation then validates the order details, checks inventory levels in real-time, and selects the appropriate shipping carrier based on a set of predefined rules, such as package weight and customer location. It generates shipping labels by integrating with various shipping APIs and automatically sends branded, personalized confirmation emails to customers. This has resulted in an 85% reduction in manual tasks and a 60% improvement in fulfillment speed.'
+                title: 'Sales Bot for Automotive Dealership',
+                image1: "\salesbotworkflow.jpeg",
+                image2: '\salesbotelegram.jpeg',
+                image3: '\salesbotworkflow.jpeg',
+                text1: 'This n8n workflow processes 1000+ daily interactions across text/voice channels. The modular design enables rapid scaling - easily add WhatsApp, Facebook Messenger, or web chat integrations. Memory management maintains customer context across sessions, while the AI engine can be trained on specific product catalogs, pricing databases, and CRM systems. Perfect for dealerships, real estate, or any business requiring 24/7 customer engagement with personalized responses and lead qualification',
+                text2:  'Bot handles customer inquiries, product details, pricing, and appointment scheduling 24/7. Integrated multiple APIs seamlessly with custom data transformation and real-time response indicators for enhanced user experience'
             },
             2: {
-                title: 'CRM Data Synchronization',
-                image1: 'https://placehold.co/700x400/FF6B6B/ffffff?text=CRM+Data+Flow',
-                image2: 'https://placehold.co/700x400/f093fb/ffffff?text=Conflict+Resolution+Logic',
-                image3: 'https://placehold.co/700x400/f5576c/ffffff?text=Data+Mapping',
-                text1: 'A major challenge for our client was maintaining data consistency between their Salesforce and HubSpot instances. This project focused on building a bi-directional synchronization system using make.com to ensure that both platforms always have up-to-date information. This is crucial for both the sales and marketing teams to have a unified view of the customer.',
-                text2: 'The workflow includes advanced features like data mapping for custom fields and a conflict resolution mechanism to handle cases where the same record is updated in both systems simultaneously. The automation runs at regular intervals, checking for new or updated records and syncing them accordingly. This has eliminated data discrepancies and provided a single source of truth for customer data.'
+                title: 'Ad Copy Generator',
+                image1: '\adcopywrkflow.jpeg',
+                image2: "\Adcopybot.jpeg",
+                image3: '\adcopywrkflow.jpeg',
+                text1: 'Complete automation in action - from user input to professional marketing copy delivered to your phone in under 2 minutes. No more waiting days for copywriters or struggling with blank pages. Just instant, conversion-ready content that businesses can use immediately for their marketing campaigns. Value: Transforms hours of work into minutes of automation.',
+                text2: 'This workflow automatically transforms basic business information into professional marketing materials and distributes them across multiple channels. Currently configured for Telegram delivery, but easily extended to send directly to Gmail, LinkedIn, Facebook, Instagram, your website, or any social media platform via API integration. Value: One workflow, unlimited distribution possibilities - scale your marketing across every channel automatically.RetryClaude can make mistakes. Please double-check responses.orkflow includes advanced features like data mapping for custom fields and a conflict resolution mechanism to handle cases where the same record is updated in both systems simultaneously. The automation runs at regular intervals, checking for new or updated records and syncing them accordingly. This has eliminated data discrepancies and provided a single source of truth for customer data.',
             },
             3: {
-                title: 'HR Onboarding Automation',
-                image1: 'https://placehold.co/700x400/a8edea/ffffff?text=HR+Onboarding+Process',
-                image2: 'https://placehold.co/700x400/4facfe/ffffff?text=Automated+Account+Creation',
-                image3: 'https://placehold.co/700x400/00f2fe/ffffff?text=DocuSign+Integration',
-                text1: 'Onboarding new employees involved numerous repetitive tasks that were prone to delays and inconsistencies. I designed an automated onboarding workflow using n8n that streamlined the entire process. When a new employee is marked as "hired" in the HR system, the automation is triggered.',
-                text2: 'The workflow automatically generates necessary legal documents and sends them for e-signature via DocuSign, creates user accounts in Google Workspace and other internal tools, and enrolls the new hire in relevant training courses. This has significantly improved the onboarding experience for new employees and freed up the HR team to focus on more strategic initiatives.'
+                title: 'AI Research Assistant & Report Generator',
+                image1: "\DeepResearch.png",
+                image2: "\PdfDeepresearcjcreenshot.png",
+                image3: "\Deepresearchemail.png",
+                text1: 'The workflow begins by taking a topic and using AI to break it down into five distinct chapters. Parallel Research: It then performs parallel web research for each chapter, gathering information from multiple sources. Content Generation: AI agents synthesize the researched information to write the full content for the introduction and each chapterOnboarding new employees involved numerous repetitive tasks that were prone to delays and inconsistencies. I designed an automated onboarding workflow using n8n that streamlined the entire process. When a new employee is marked as "hired" in the HR system, the automation is triggered.',
+                text2: 'Finally, all sections are compiled, formatted into a complete report, and saved as the polished PDF document shown This "Deep Research" workflow demonstrates a sophisticated application of AI agents, parallel processing, and seamless integration of multiple web services to execute a complex task that would otherwise require significant manual effort. It serves as an excellent example of building advanced, practical, and efficient automation solutions.',
+            },
+            4: {
+                title: 'Gmail Auto-Labeller Workflow',
+                image1: "\Emaillabeller.png",
+                image2: "\labelerlabel.png",
+                image3: "\Emaillabeller.png",
+                text1: "Describing the Workflow's Outcome/Result Scheduled Trigger: The process initiates automatically every two minutes, ensuring the inbox is consistently kept up-to-date. Fetch & Filter: The workflow retrieves the 20 most recent Gmail messages. It then intelligently filters out any emails that have already been assigned specific, pre-defined labels (like 'Newsletter', 'Invoice', or 'Spam'), ensuring it only processes new or uncategorized items. Loop & Analyze: The system processes each remaining email one by one in a loop. For each email, it extracts the essential content (sender, subject, and body)",
+                text2: "Label Sanitization: The raw output from the AI is cleaned by a custom code step to ensure it's a valid Gmail label (removing special characters, trimming spaces, and enforcing length limits). Dynamic Label Management: The workflow checks if the sanitized label already exists in the user's Gmail account. If the label exists, it is immediately applied to the email. If the label does not exist, the workflow first creates the new label in Gmail and then applies it to the email. Completion: The loop continues until all new emails in the batch have been successfully labeled, at which point the workflow waits for the next scheduled run.",
             }
         };
 
